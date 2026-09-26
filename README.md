@@ -6,7 +6,7 @@ An interactive Power BI dashboard analyzing BMW global sales data (2010–2024),
 built with a full data pipeline: Python for cleaning & feature engineering, 
 Google BigQuery for SQL analysis, and Power BI for visualization.
 
-![Dashboard Overview](dashboard-screenshot.png)
+![Dashboard Overview](Dashboard.png)
 
 ## 🛠️ Tools & Workflow
 
@@ -27,10 +27,10 @@ Google BigQuery for SQL analysis, and Power BI for visualization.
 
 ## 📁 Files
 
-- `bmw_feature_engineering.ipynb` — Python data cleaning & feature engineering
-- `queries.sql` — BigQuery SQL queries used for analysis
-- `bmw-sales-dashboard.pbix` — Power BI dashboard file
-- `dashboard-screenshot.png` — dashboard preview
+- `Bmw_Feature_Engineering.ipynb` — Python data cleaning & feature engineering
+- `BMW SQL.txt` — BigQuery SQL queries used for analysis
+- `BMW PowerBI.pbix` — Power BI dashboard file
+- `Dashboard.png` — dashboard preview
 
 ## 📈 Dashboard Features
 
