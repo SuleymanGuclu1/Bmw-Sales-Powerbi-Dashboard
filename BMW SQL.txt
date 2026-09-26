@@ -1,0 +1,73 @@
+-- 1. Genel KPI özeti
+SELECT
+  COUNT(*) AS toplam_satis_kaydi,
+  SUM(Sales_Volume) AS toplam_hacim,
+  ROUND(SUM(Revenue), 2) AS toplam_gelir,
+  ROUND(AVG(Price_USD), 2) AS ortalama_fiyat
+FROM `bmw-sales-project-123456.Sales.Sales`;
+
+-- 2. Seri bazlı performans
+SELECT
+  Series_Group,
+  COUNT(*) AS adet,
+  SUM(Sales_Volume) AS toplam_hacim,
+  ROUND(SUM(Revenue), 2) AS toplam_gelir,
+  ROUND(AVG(Price_USD), 2) AS ort_fiyat
+FROM `bmw-sales-project-123456.Sales.Sales`
+GROUP BY Series_Group
+ORDER BY toplam_gelir DESC;
+
+-- 3. EV Transition Rate (Fuel_Type bazlı)
+SELECT
+  Fuel_Type,
+  COUNT(*) AS adet,
+  SUM(Sales_Volume) AS toplam_hacim,
+  ROUND(SUM(Revenue), 2) AS toplam_gelir,
+  ROUND(100 * SUM(Revenue) / SUM(SUM(Revenue)) OVER (), 2) AS gelir_yuzdesi
+FROM `bmw-sales-project-123456.Sales.Sales`
+GROUP BY Fuel_Type
+ORDER BY toplam_gelir DESC;
+
+-- 4. Yıllara göre trend + YoY büyüme
+SELECT
+  Year,
+  SUM(Sales_Volume) AS yillik_hacim,
+  ROUND(SUM(Revenue), 2) AS yillik_gelir,
+  ROUND(
+    100 * (SUM(Revenue) - LAG(SUM(Revenue)) OVER (ORDER BY Year))
+    / LAG(SUM(Revenue)) OVER (ORDER BY Year), 2
+  ) AS yoy_buyume_yuzdesi
+FROM `bmw-sales-project-123456.Sales.Sales`
+GROUP BY Year
+ORDER BY Year;
+
+-- 5. Bölgesel analiz
+SELECT
+  Region,
+  COUNT(*) AS adet,
+  SUM(Sales_Volume) AS toplam_hacim,
+  ROUND(SUM(Revenue), 2) AS toplam_gelir,
+  ROUND(AVG(Price_USD), 2) AS ort_fiyat
+FROM `bmw-sales-project-123456.Sales.Sales`
+GROUP BY Region
+ORDER BY toplam_gelir DESC;
+
+-- 6. Sales Classification Insights
+SELECT
+  Sales_Classification,
+  Series_Group,
+  COUNT(*) AS adet,
+  ROUND(SUM(Revenue), 2) AS toplam_gelir
+FROM `bmw-sales-project-123456.Sales.Sales`
+GROUP BY Sales_Classification, Series_Group
+ORDER BY Sales_Classification, toplam_gelir DESC;
+
+-- 7. Mileage & Pricing Behavior
+SELECT
+  Mileage_Category,
+  COUNT(*) AS adet,
+  ROUND(AVG(Price_USD), 2) AS ort_fiyat,
+  ROUND(AVG(Price_per_KM), 4) AS ort_km_basi_fiyat
+FROM `bmw-sales-project-123456.Sales.Sales`
+GROUP BY Mileage_Category
+ORDER BY Mileage_Category;
